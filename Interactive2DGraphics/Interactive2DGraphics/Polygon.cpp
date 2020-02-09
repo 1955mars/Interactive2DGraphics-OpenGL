@@ -19,6 +19,7 @@ bool Polyg::isDrawn()
 	return false;
 }
 
+//Overriding the parent Draw method with GL_LINE_STRIP shape when the number of vertices drawn is upto 2. 
 void Polyg::Draw(float mousePos[2])
 {
 	if (vertices.size() >= 4)

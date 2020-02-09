@@ -62,10 +62,7 @@ void drawCursor(void)
 
 void display(void)
 {
-	if (currShapeType == ShapeType::NONE)
-	{
-		return;
-	}
+
 
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 
@@ -74,18 +71,21 @@ void display(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	for (Shape *shape : shapes)
+	if (currShapeType != ShapeType::NONE)
 	{
-		shape->Draw();
-	}
+		for (Shape* shape : shapes)
+		{
+			shape->Draw();
+		}
 
-	if (isDrawing)
-	{
-		(currShape) ? (currShape->Draw(mousePos)) : drawCursor();
-	}
-	else
-	{
-		drawCursor();
+		if (isDrawing)
+		{
+			(currShape) ? (currShape->Draw(mousePos)) : drawCursor();
+		}
+		else
+		{
+			drawCursor();
+		}
 	}
 
 	glutSwapBuffers();
@@ -170,6 +170,7 @@ void updateColor()
 	}	
 }
 
+//Finishes drawing for continous shapes like line strips and polygons
 void finishDrawing()
 {
 	if ((currShapeType == ShapeType::LINE || currShapeType == ShapeType::POLYGON) && isDrawing)
@@ -318,7 +319,6 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(rasterSize[0], rasterSize[1]);
 
 	glutCreateWindow("Interactive 2D Graphics");
-
 
 	glutReshapeFunc(reshape);
 

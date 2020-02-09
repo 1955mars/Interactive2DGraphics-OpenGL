@@ -8,8 +8,8 @@
 
 Shape::Shape(int _glShapeDrawing, int _glShapeDrawn, float col[3], float pSize, bool usePointSize, bool useLineWidth)
 {
-	glShapeDrawing = _glShapeDrawing;
-	glShapeDrawn = _glShapeDrawn;
+	glShapeDrawing = _glShapeDrawing; //The inherited shapes set the shape type to be used while drawing
+	glShapeDrawn = _glShapeDrawn; //The inherited shapes set the shape type to be used after it is drawn
 
 	color[0] = col[0];
 	color[1] = col[1];
@@ -17,8 +17,8 @@ Shape::Shape(int _glShapeDrawing, int _glShapeDrawn, float col[3], float pSize, 
 
 	pointSize = pSize;
 
-	usesLineWidth = useLineWidth;
-	usesPointSize = usePointSize;
+	usesLineWidth = useLineWidth; //Inherited shapes mention if they use custom linewidth
+	usesPointSize = usePointSize; //Inherited shapes mention if they use custom point size
 	
 	defPointSize = 1.0f;
 	defLineWidth = 1.0f;

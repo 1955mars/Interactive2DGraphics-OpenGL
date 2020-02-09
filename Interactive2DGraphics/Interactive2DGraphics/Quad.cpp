@@ -23,6 +23,7 @@ bool Quad::isDrawn()
 	return false;
 }
 
+//Overriding the parent method to draw a rectangle with only two vertices
 void Quad::Draw()
 {
 	SetSize();
@@ -36,6 +37,7 @@ void Quad::Draw()
 	glEnd();
 }
 
+//Overriding the parent method to draw a rectangle with one vertex and mousepos
 void Quad::Draw(float mousePos[2])
 {
 	SetSize();
