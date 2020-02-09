@@ -9,7 +9,7 @@
 #include "Triangle.h"
 
 Triangle::Triangle(float col[3], float pSize)
-	:Shape(GL_LINE_STRIP, GL_TRIANGLES, col, pSize)
+	:Shape(GL_LINE_STRIP, GL_TRIANGLES, col, pSize, false, false)
 {
 
 }

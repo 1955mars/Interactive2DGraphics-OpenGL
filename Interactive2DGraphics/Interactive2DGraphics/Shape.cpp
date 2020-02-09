@@ -6,7 +6,7 @@
 
 #include "Shape.h"
 
-Shape::Shape(int _glShapeDrawing, int _glShapeDrawn, float col[3], float pSize)
+Shape::Shape(int _glShapeDrawing, int _glShapeDrawn, float col[3], float pSize, bool usePointSize, bool useLineWidth)
 {
 	glShapeDrawing = _glShapeDrawing;
 	glShapeDrawn = _glShapeDrawn;
@@ -16,6 +16,12 @@ Shape::Shape(int _glShapeDrawing, int _glShapeDrawn, float col[3], float pSize)
 	color[2] = col[2];
 
 	pointSize = pSize;
+
+	usesLineWidth = useLineWidth;
+	usesPointSize = usePointSize;
+	
+	defPointSize = 1.0f;
+	defLineWidth = 1.0f;
 }
 
 void Shape::UpdateColor(float col[3])
@@ -33,8 +39,7 @@ void Shape::AddVertex(float loc[2])
 
 void Shape::Draw(void)
 {
-	glPointSize(pointSize);
-	glLineWidth(pointSize);
+	SetSize();
 	glColor3fv(color);
 	glBegin(glShapeDrawn);
 	for (int i = 0; i < vertices.size(); i = i + 2)
@@ -46,8 +51,7 @@ void Shape::Draw(void)
 
 void Shape::Draw(float mousePos[2])
 {
-	glPointSize(pointSize);
-	glLineWidth(pointSize);
+	SetSize();
 	glColor3fv(color);
 	glBegin(glShapeDrawing);
 	for (int i = 0; i < vertices.size(); i = i + 2)
@@ -56,4 +60,17 @@ void Shape::Draw(float mousePos[2])
 	}
 	glVertex2fv(mousePos);
 	glEnd();
+}
+
+void Shape::SetSize(void)
+{
+	if (usesPointSize)
+		glPointSize(pointSize);
+	else
+		glPointSize(defPointSize);
+
+	if (usesLineWidth)
+		glLineWidth(pointSize);
+	else
+		glLineWidth(defLineWidth);
 }

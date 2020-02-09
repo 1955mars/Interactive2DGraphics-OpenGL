@@ -9,7 +9,7 @@
 #include "Quad.h"
 
 Quad::Quad(float col[3], float pSize)
-	:Shape(GL_LINE_LOOP, GL_QUADS, col, pSize)
+	:Shape(GL_LINE_LOOP, GL_QUADS, col, pSize, false, false)
 {
 
 }
@@ -25,7 +25,7 @@ bool Quad::isDrawn()
 
 void Quad::Draw()
 {
-	glPointSize(pointSize);
+	SetSize();
 	glColor3fv(color);
 	glBegin(GL_QUADS);
 	glVertex2f(vertices[0], vertices[1]);
@@ -38,7 +38,7 @@ void Quad::Draw()
 
 void Quad::Draw(float mousePos[2])
 {
-	glPointSize(pointSize);
+	SetSize();
 	glColor3fv(color);
 	glBegin(GL_LINE_LOOP);
 	glVertex2f(vertices[0], vertices[1]);

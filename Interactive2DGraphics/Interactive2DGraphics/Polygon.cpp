@@ -9,7 +9,7 @@
 #include "Polygon.h"
 
 Polyg::Polyg(float col[3], float pSize)
-	:Shape(GL_POLYGON, GL_POLYGON, col, pSize)
+	:Shape(GL_POLYGON, GL_POLYGON, col, pSize, false, false)
 {
 
 }
@@ -26,7 +26,7 @@ void Polyg::Draw(float mousePos[2])
 		Shape::Draw(mousePos);
 		return;
 	}
-	glPointSize(pointSize);
+	SetSize();
 	glColor3fv(color);
 	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i < vertices.size(); i = i + 2)

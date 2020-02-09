@@ -22,11 +22,12 @@ enum class ShapeType
 	LINE,
 	TRIANGLE,
 	QUAD,
-	POLYGON
+	POLYGON,
+	NONE
 };
 
 
-ShapeType currShapeType = ShapeType::PT;
+ShapeType currShapeType = ShapeType::NONE;
 vector <Shape*> shapes;
 
 Shape* currShape = nullptr;
@@ -34,7 +35,7 @@ Shape* currShape = nullptr;
 bool isDrawing = false;
 
 float color[3];
-float size = 5.0f;
+float size = 1.0f;
 float mousePos[2];
 
 
@@ -45,8 +46,7 @@ int rasterSize[] = { 800, 600 };
 void init(void)
 {
 	mousePos[0] = mousePos[1] = 0.0f;
-	color[0] = 1.0f;
-	color[1] = color[2] = 0.0f;
+	color[0] = color[1] = color[2] = 0.0f;
 }
 
 void drawCursor(void)
@@ -62,6 +62,11 @@ void drawCursor(void)
 
 void display(void)
 {
+	if (currShapeType == ShapeType::NONE)
+	{
+		return;
+	}
+
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -108,7 +113,7 @@ Shape* CreateCurrentShape()
 
 void mouse(int button, int state, int x, int y)
 {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN && currShapeType != ShapeType::NONE)
 	{
 		mousePos[0] = (float)x / rasterSize[0] * canvasSize[0];
 		mousePos[1] = (rasterSize[1] - (float)y) / rasterSize[1] * canvasSize[1];
@@ -163,6 +168,31 @@ void updateColor()
 			currShape->UpdateColor(color);
 		}
 	}	
+}
+
+void finishDrawing()
+{
+	if ((currShapeType == ShapeType::LINE || currShapeType == ShapeType::POLYGON) && isDrawing)
+	{
+		if (currShape)
+		{
+			shapes.push_back(currShape);
+			currShape = nullptr;
+		}
+		isDrawing = false;
+	}
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+	switch (key) {
+	case 27:
+		exit(0);
+		break;
+	case 13:
+		finishDrawing();
+		break;
+	}
 }
 
 void menu(int value)
@@ -225,30 +255,22 @@ void menu(int value)
 		break;
 
 	case 10:
-		size = 5.0f;
+		size = 1.0f;
 		glutPostRedisplay();
 		break;
 
 	case 11:
-		size = 10.0f;
+		size = 3.0f;
 		glutPostRedisplay();
 		break;
 
 	case 12:
-		size = 15.0f;
+		size = 6.0f;
 		glutPostRedisplay();
 		break;
 
 	case 13:
-		if ((currShapeType == ShapeType::LINE || currShapeType == ShapeType::POLYGON) && isDrawing)
-		{
-			if (currShape)
-			{
-				shapes.push_back(currShape);
-				currShape = nullptr;
-			}
-			isDrawing = false;
-		}
+		finishDrawing();
 		break;
 
 	default:
@@ -301,6 +323,8 @@ int main(int argc, char* argv[])
 	glutReshapeFunc(reshape);
 
 	glutDisplayFunc(display);
+
+	glutKeyboardFunc(keyboard);
 
 	glutMouseFunc(mouse);
 

@@ -7,7 +7,7 @@
 #endif
 
 Point::Point(float col[3], float pSize)
-	: Shape(GL_POINTS, GL_POINTS, col, pSize)
+	: Shape(GL_POINTS, GL_POINTS, col, pSize, true, false)
 {
 
 }

@@ -9,7 +9,7 @@
 #include "Line.h"
 
 Line::Line(float color[3], float pSize):
-	Shape(GL_LINE_STRIP, GL_LINE_STRIP, color, pSize)
+	Shape(GL_LINE_STRIP, GL_LINE_STRIP, color, pSize, false, true)
 {
 
 }
